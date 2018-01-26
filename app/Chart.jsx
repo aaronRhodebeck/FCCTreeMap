@@ -20,11 +20,14 @@ const ChartDescription = styled.h3`
 `;
 
 export default class Chart extends React.Component {
-  componentWillMount() {}
+  componentWillUpdate() {}
   render() {
     return (
       <ChartArea>
-        <ChartDescription>Describe the currently displaying chart</ChartDescription>
+        <ChartDescription>
+          Describe the currently displaying chart, which is:{' '}
+          {this.props.chartData ? this.props.chartData.name : 'Loading'}
+        </ChartDescription>
         Chart is building ...
       </ChartArea>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ChartSelection from './ChartSelection';
 import Chart from './Chart';
+import getChartData from './getChartData';
 
 const AppArea = styled.div`
   margin: 0px;
@@ -37,7 +38,31 @@ const Signature = styled.a`
 `;
 
 export default class Main extends React.Component {
-  componentWillMount() {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      chartName: 'Kickstarter',
+      chartDataAddress:
+        'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json',
+      chartData: null,
+    };
+    this.setChartData = this.setChartData.bind(this);
+    this.changeChart = this.changeChart.bind(this);
+  }
+
+  componentWillMount() {
+    getChartData(this.state.chartDataAddress, this.setChartData);
+  }
+
+  setChartData(data) {
+    this.setState({ chartData: data });
+  }
+
+  changeChart(chartInfo) {
+    this.setState({ chartDataAddress: chartInfo.address, chartName: chartInfo.name });
+    getChartData(chartInfo.address, this.setChartData);
+  }
+
   render() {
     return (
       <AppArea>
@@ -46,8 +71,8 @@ export default class Main extends React.Component {
           A tree map built with D3 and React for the Data Visualization Challenges <br />{' '}
           on <Link href="www.beta.freecodecamp.com">freeCodeCamp</Link> by Aaron Rhodebeck
         </PageDescription>
-        <ChartSelection />
-        <Chart />
+        <ChartSelection changeChart={this.changeChart} />
+        <Chart chartData={this.state.chartData} />
         <Signature href="https://github.com/aaronRhodebeck" target="_blank">
           See more work by Aaron Rhodebeck
         </Signature>
