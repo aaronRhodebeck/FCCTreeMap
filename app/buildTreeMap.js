@@ -59,20 +59,20 @@ export default function buildTreeMap(
 
   treeMapLayout(root);
 
-  const child = svg
+  const cells = svg
     .selectAll('g')
     .data(root.descendants())
     .enter()
     .append('g')
     .attr('transform', d => `translate(${d.x0}, ${d.y0})`);
 
-  const squares = child
+  const squares = cells
     .append('rect')
     .attr('width', d => d.x1 - d.x0)
     .attr('height', d => d.y1 - d.y0)
     .attr('fill', d => colorScale(d.data.category));
 
-  const foreignObject = child
+  const foreignObject = cells
     .append('foreignObject')
     .append('xhtml:div')
     .html(d => d.data.name + ' - $' + Math.trunc(d.data.value / 1000000) + 'M')
@@ -122,5 +122,33 @@ export default function buildTreeMap(
     .style('font-family', 'Helvetica')
     .style('font-weight', 'bold')
     .style('fill', 'rgb(140, 165, 198)');
+  // #endregion
+
+  // #region Set tooltip info
+  function setTooltipState(d) {
+    const tooltip = {
+      visibility: 'visible',
+      location: {
+        x: d3.event.pageX,
+        y: d3.event.pageY,
+      },
+      data: {
+        name: d.data.name,
+        category: d.data.category,
+        color: colorScale(d.data.category),
+        value: d.data.value,
+      },
+    };
+    reactComponent.setState({ tooltip });
+  }
+
+  function hideTooltip() {
+    const tooltip = { ...reactComponent.state.tooltip };
+    tooltip.visibility = 'hidden';
+    reactComponent.setState({ tooltip });
+  }
+
+  cells.on('mouseover', setTooltipState);
+  cells.on('mouseout', hideTooltip);
   // #endregion
 }
