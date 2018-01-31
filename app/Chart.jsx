@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReactFauxDOM from 'react-faux-dom';
 import buildTreeMap from './buildTreeMap';
+import Tooltip from './Tooltip';
 
 const ChartArea = styled.div`
   margin: 20px;
@@ -27,20 +28,27 @@ const ChartDescription = styled.h3`
   color: rgb(140, 165, 198);
 `;
 
-const Chart = ({ chartData }) => {
-  const chart = new ReactFauxDOM.Element('div');
-  buildTreeMap(chart, chartData, this);
-  return (
-    <ChartArea>
-      <ChartDescription>
-        Describe the currently displaying chart, which is:{' '}
-        {chartData ? chartData.name : 'Loading'}
-      </ChartDescription>
-      {chart.toReact()}
-    </ChartArea>
-  );
-};
-
+class Chart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const { chartData } = this.props;
+    const chart = new ReactFauxDOM.Element('div');
+    buildTreeMap(chart, chartData, this);
+    return (
+      <ChartArea>
+        <ChartDescription>
+          Describe the currently displaying chart, which is:{' '}
+          {chartData ? chartData.name : 'Loading'}
+        </ChartDescription>
+        {chart.toReact()}
+        {this.state.tooltip && <Tooltip info={this.state.tooltip} />}
+      </ChartArea>
+    );
+  }
+}
 export default Chart;
 
 Chart.propTypes = {
