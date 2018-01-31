@@ -1,13 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import withFauxDOM from 'react-faux-dom';
+import ReactFauxDOM from 'react-faux-dom';
+import buildTreeMap from './buildTreeMap';
 
 const ChartArea = styled.div`
   margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 10px;
-  box-shadow: 3px 3px 20px rgba(8, 18, 33, 0.7), -3px -3px 20px rgba(8, 18, 33, 0.7);
+  background-color: rgb(70, 70, 70);
+  box-shadow: 3px 3px 6px rgba(8, 18, 33, 0.8), -3px -3px 6px rgba(8, 18, 33, 0.8);
   min-height: 40vh;
-  max-height: 85vh;
+  max-height: 90vh;
+  max-width: calc(90vh * 8/4.5);
   border-radius: 15px;
 `;
 
@@ -17,19 +23,26 @@ const ChartDescription = styled.h3`
   text-align: center;
   margin: 5px;
   font-weight: normal;
+  margin-bottom: 20px;
+  color: rgb(140, 165, 198);
 `;
 
-export default class Chart extends React.Component {
-  componentWillUpdate() {}
-  render() {
-    return (
-      <ChartArea>
-        <ChartDescription>
-          Describe the currently displaying chart, which is:{' '}
-          {this.props.chartData ? this.props.chartData.name : 'Loading'}
-        </ChartDescription>
-        Chart is building ...
-      </ChartArea>
-    );
-  }
-}
+const Chart = ({ chartData }) => {
+  const chart = new ReactFauxDOM.Element('div');
+  buildTreeMap(chart, chartData, this);
+  return (
+    <ChartArea>
+      <ChartDescription>
+        Describe the currently displaying chart, which is:{' '}
+        {chartData ? chartData.name : 'Loading'}
+      </ChartDescription>
+      {chart.toReact()}
+    </ChartArea>
+  );
+};
+
+export default Chart;
+
+Chart.propTypes = {
+  chartData: PropTypes.object.isRequired,
+};

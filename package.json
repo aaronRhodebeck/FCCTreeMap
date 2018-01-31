@@ -20,6 +20,8 @@
   "homepage": "https://github.com/aaronRhodebeck/FCCTreeMap#readme",
   "dependencies": {
     "d3": "^4.12.2",
+    "d3-scale-chromatic": "^1.2.0",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-faux-dom": "^4.1.0",
