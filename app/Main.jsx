@@ -44,6 +44,7 @@ export default class Main extends React.Component {
       chartName: 'Movie Sales',
       chartDataAddress:
         'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/movie-data.json',
+      chartDescription: 'The top 100 highest grossing movies, grouped by genre',
       chartData: null,
     };
     this.setChartData = this.setChartData.bind(this);
@@ -60,7 +61,11 @@ export default class Main extends React.Component {
 
   changeChart(chartInfo) {
     this.setState({});
-    this.setState({ chartDataAddress: chartInfo.address, chartName: chartInfo.name });
+    this.setState({
+      chartDataAddress: chartInfo.address,
+      chartName: chartInfo.name,
+      chartDescription: chartInfo.description,
+    });
     getChartData(chartInfo.address, this.setChartData);
   }
 
@@ -73,7 +78,13 @@ export default class Main extends React.Component {
           on <Link href="www.beta.freecodecamp.com">freeCodeCamp</Link> by Aaron Rhodebeck
         </PageDescription>
         <ChartSelection changeChart={this.changeChart} />
-        {this.state.chartData && <Chart chartData={this.state.chartData} />}
+        {this.state.chartData && (
+          <Chart
+            chartData={this.state.chartData}
+            chartName={this.state.chartName}
+            chartDescription={this.state.chartDescription}
+          />
+        )}
         <Signature href="https://github.com/aaronRhodebeck" target="_blank">
           See more work by Aaron Rhodebeck
         </Signature>

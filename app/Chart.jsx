@@ -18,11 +18,19 @@ const ChartArea = styled.div`
   border-radius: 15px;
 `;
 
+const ChartTitle = styled.h2`
+  text-align: center;
+  font-family: Verdana, sans;
+  color: rgb(140, 165, 198);
+  margin: 0px;
+  font-size: 1.6em;
+`;
+
 const ChartDescription = styled.h3`
   font-family: Verdana, sans-serif;
-  font-size: 1.3em;
+  font-size: 1.2em;
   text-align: center;
-  margin: 5px;
+  margin: 3px;
   font-weight: normal;
   margin-bottom: 20px;
   color: rgb(140, 165, 198);
@@ -39,9 +47,9 @@ class Chart extends React.Component {
     buildTreeMap(chart, chartData, this);
     return (
       <ChartArea>
-        <ChartDescription>
-          Describe the currently displaying chart, which is:{' '}
-          {chartData ? chartData.name : 'Loading'}
+        <ChartTitle id="title">{this.props.chartName}</ChartTitle>
+        <ChartDescription id="description">
+          {this.props.chartDescription}
         </ChartDescription>
         {chart.toReact()}
         {this.state.tooltip && <Tooltip info={this.state.tooltip} />}
@@ -52,5 +60,7 @@ class Chart extends React.Component {
 export default Chart;
 
 Chart.propTypes = {
+  chartDescription: PropTypes.string.isRequired,
+  chartName: PropTypes.string.isRequired,
   chartData: PropTypes.object.isRequired,
 };
