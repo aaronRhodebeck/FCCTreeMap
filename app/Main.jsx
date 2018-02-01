@@ -81,6 +81,7 @@ export default class Main extends React.Component {
         {this.state.chartData && (
           <Chart
             chartData={this.state.chartData}
+            chartName={this.state.chartName}
             chartDescription={this.state.chartDescription}
           />
         )}

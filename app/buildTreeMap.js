@@ -54,8 +54,8 @@ export default function buildTreeMap(
   const treeMapLayout = d3
     .treemap()
     .size([width, height - margins.bottom])
-    .paddingOuter(2)
-    .paddingInner(1);
+    .paddingOuter(0)
+    .paddingInner(1.5);
 
   treeMapLayout(root);
 
@@ -66,7 +66,7 @@ export default function buildTreeMap(
     .append('g')
     .attr('transform', d => `translate(${d.x0}, ${d.y0})`);
 
-  const squares = cells
+  const tiles = cells
     .append('rect')
     .attr('width', d => d.x1 - d.x0)
     .attr('height', d => d.y1 - d.y0)
@@ -150,5 +150,16 @@ export default function buildTreeMap(
 
   cells.on('mouseover', setTooltipState);
   cells.on('mouseout', hideTooltip);
+  // #endregion
+
+  // #region Pass freeCodeCamp tests
+  tiles
+    .attr('class', 'tile')
+    .attr('data-name', d => d.data.name)
+    .attr('data-category', d => (d.data.category ? d.data.category : d.data.name))
+    .attr('data-value', d => d.value);
+
+  legend.attr('id', 'legend');
+  legendSquare.attr('class', 'legend-item');
   // #endregion
 }

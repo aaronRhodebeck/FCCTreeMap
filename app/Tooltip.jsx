@@ -61,7 +61,12 @@ const Value = styled.p`
 const Tooltip = ({ info }) => {
   const { location, visibility, data } = info;
   return (
-    <Base mousePosition={location} visibility={visibility}>
+    <Base
+      mousePosition={location}
+      style={{ visibility }}
+      id="tooltip"
+      data-value={data.value}
+    >
       <Category color={data.color}>{data.category}</Category>
       <Name>{data.name}</Name>
       {data.value && (
