@@ -39,10 +39,7 @@ class Chart extends React.Component {
     buildTreeMap(chart, chartData, this);
     return (
       <ChartArea>
-        <ChartDescription>
-          Describe the currently displaying chart, which is:{' '}
-          {chartData ? chartData.name : 'Loading'}
-        </ChartDescription>
+        <ChartDescription>{this.props.chartDescription}</ChartDescription>
         {chart.toReact()}
         {this.state.tooltip && <Tooltip info={this.state.tooltip} />}
       </ChartArea>
@@ -52,5 +49,6 @@ class Chart extends React.Component {
 export default Chart;
 
 Chart.propTypes = {
+  chartDescription: PropTypes.string.isRequired,
   chartData: PropTypes.object.isRequired,
 };
